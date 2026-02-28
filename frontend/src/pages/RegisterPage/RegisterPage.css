@@ -26,7 +26,8 @@
   margin-bottom: 15px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   padding: 0.8rem;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
@@ -34,7 +35,8 @@
   transition: 0.3s;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   border-color: #2563eb;
   outline: none;
   box-shadow: 0 0 5px rgba(37, 99, 235, 0.4);
