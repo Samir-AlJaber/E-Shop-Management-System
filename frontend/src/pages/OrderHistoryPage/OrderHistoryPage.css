@@ -1,0 +1,48 @@
+.history-container {
+  padding: 4rem 1rem;
+  min-height: 80vh;
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.history-container h2 {
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.order-card {
+  background: white;
+  width: 500px;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.status {
+  background: #facc15;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.delivery-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+
+.no-orders {
+  color: white;
+  font-size: 1.1rem;
+}
