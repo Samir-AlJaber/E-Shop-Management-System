@@ -11,12 +11,162 @@ create database eshop;
 USE eshop;
 GO
 
-CREATE TABLE users (
-    id INT IDENTITY(1,1) PRIMARY KEY,
+CREATE TABLE owner (
+    owner_id INT IDENTITY(1,1) PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE salesman (
+    salesman_id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL,
+    status VARCHAR(20) DEFAULT 'active',
     created_at DATETIME DEFAULT GETDATE()
 );
-GO
+
+CREATE TABLE customer (
+    customer_id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    address VARCHAR(255),
+    password_hash VARCHAR(255) NOT NULL,
+    status VARCHAR(20) DEFAULT 'active',
+    created_at DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE category (
+    category_id INT IDENTITY(1,1) PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE product (
+    product_id INT IDENTITY(1,1) PRIMARY KEY,
+    owner_id INT NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    category_id INT NOT NULL,
+    brand VARCHAR(100),
+    description VARCHAR(MAX),
+    price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
+    stock_quantity INT DEFAULT 0 CHECK (stock_quantity >= 0),
+
+    CONSTRAINT FK_product_owner
+        FOREIGN KEY (owner_id)
+        REFERENCES owner(owner_id)
+        ON DELETE NO ACTION,
+
+    CONSTRAINT FK_product_category
+        FOREIGN KEY (category_id)
+        REFERENCES category(category_id)
+        ON DELETE NO ACTION
+);
+
+CREATE TABLE discount (
+    discount_id INT IDENTITY(1,1) PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    discount_type VARCHAR(20) NOT NULL CHECK (discount_type IN ('percentage', 'fixed')),
+    value DECIMAL(10,2) NOT NULL CHECK (value >= 0),
+    start_date DATE NULL,
+    end_date DATE NULL
+);
+
+CREATE TABLE product_discount (
+    product_id INT NOT NULL,
+    discount_id INT NOT NULL,
+    PRIMARY KEY (product_id, discount_id),
+
+    CONSTRAINT FK_pd_product
+        FOREIGN KEY (product_id)
+        REFERENCES product(product_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT FK_pd_discount
+        FOREIGN KEY (discount_id)
+        REFERENCES discount(discount_id)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE orders (
+    order_id INT IDENTITY(1,1) PRIMARY KEY,
+    owner_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    salesman_id INT NULL,
+
+    order_date DATETIME DEFAULT GETDATE(),
+    total_amount DECIMAL(10,2) DEFAULT 0,
+
+    status VARCHAR(30) DEFAULT 'pending',
+
+    delivery_address VARCHAR(255) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(20) NULL,
+    payment_method VARCHAR(50) NOT NULL,
+
+    CONSTRAINT FK_orders_owner
+        FOREIGN KEY (owner_id)
+        REFERENCES owner(owner_id)
+        ON DELETE NO ACTION,
+
+    CONSTRAINT FK_orders_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customer(customer_id)
+        ON DELETE NO ACTION,
+
+    CONSTRAINT FK_orders_salesman
+        FOREIGN KEY (salesman_id)
+        REFERENCES salesman(salesman_id)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE order_item (
+    order_item_id INT IDENTITY(1,1) PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
+
+    CONSTRAINT FK_orderitem_order
+        FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT FK_orderitem_product
+        FOREIGN KEY (product_id)
+        REFERENCES product(product_id)
+        ON DELETE NO ACTION
+);
+
+CREATE TABLE support_ticket (
+    ticket_id INT IDENTITY(1,1) PRIMARY KEY,
+    customer_id INT NOT NULL,
+    salesman_id INT NULL,
+    issue VARCHAR(MAX) NOT NULL,
+    priority VARCHAR(20) CHECK (priority IN ('low', 'medium', 'high')),
+    status VARCHAR(20) DEFAULT 'open',
+    created_at DATETIME DEFAULT GETDATE(),
+
+    CONSTRAINT FK_ticket_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customer(customer_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT FK_ticket_salesman
+        FOREIGN KEY (salesman_id)
+        REFERENCES salesman(salesman_id)
+        ON DELETE SET NULL
+);
+
+CREATE TABLE user_account (
+    user_id INT IDENTITY(1,1) PRIMARY KEY,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('owner', 'salesman', 'customer')),
+    reference_id INT NOT NULL,
+    created_at DATETIME DEFAULT GETDATE()
+);
+
+SELECT name FROM sys.tables;
