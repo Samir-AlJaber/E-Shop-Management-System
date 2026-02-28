@@ -4,6 +4,11 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import ProductsPage from "./pages/ProductsPage/ProductsPage";
+import AddProductPage from "./pages/AddProductPage/AddProductPage";
+import PlaceOrderPage from "./pages/PlaceOrderPage/PlaceOrderPage";
+import OrderHistoryPage from "./pages/OrderHistoryPage/OrderHistoryPage";
+import CategoryPage from "./pages/CategoryPage/CategoryPage";
 
 function App() {
   return (
@@ -13,6 +18,11 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/add-product" element={<AddProductPage />} />
+        <Route path="/place-order" element={<PlaceOrderPage />} />
+        <Route path="/order-history" element={<OrderHistoryPage />} />
+        <Route path="/categories" element={<CategoryPage />} />
       </Routes>
     </Router>
   );
