@@ -1,34 +1,136 @@
-.profile-wrapper {
-  min-height: 90vh;
+.profile-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 4rem 1rem;
+  min-height: 80vh;
   background: linear-gradient(135deg, #2563eb, #38bdf8);
 }
 
 .profile-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: white;
   padding: 3rem;
-  border-radius: 15px;
-  width: 400px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  width: 460px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
 
 .profile-card h2 {
   margin-bottom: 2rem;
   color: #0f172a;
+  font-size: 1.8rem;
+}
+
+.profile-info {
+  text-align: left;
+  margin-bottom: 2rem;
 }
 
 .profile-info p {
-  margin: 10px 0;
+  margin: 12px 0;
   font-size: 1rem;
+  color: #334155;
+}
+
+.profile-info strong {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.profile-info span {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.edit-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.edit-btn:hover {
+  background-color: #1e40af;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 380px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+.modal-box h3 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #0f172a;
+}
+
+.modal-box input,
+.modal-box textarea {
+  width: 100%;
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+
+.modal-box input:focus,
+.modal-box textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
+  outline: none;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-actions button:first-child {
+  background: #e2e8f0;
   color: #1e293b;
 }
 
-.footer {
-  background-color: #0f172a;
-  color: #cbd5e1;
-  text-align: center;
-  padding: 2rem;
+.modal-actions button:first-child:hover {
+  background: #cbd5e1;
+}
+
+.modal-actions button:last-child {
+  background: #16a34a;
+  color: white;
+}
+
+.modal-actions button:last-child:hover {
+  background: #15803d;
 }
