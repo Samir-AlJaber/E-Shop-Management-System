@@ -9,6 +9,8 @@ import AddProductPage from "./pages/AddProductPage/AddProductPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage/PlaceOrderPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage/OrderHistoryPage";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import OwnerOrdersPage from "./pages/OwnerOrdersPage/OwnerOrdersPage";
+import AssignDeliveryPage from "./pages/AssignDeliveryPage/AssignDeliveryPage";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/place-order" element={<PlaceOrderPage />} />
         <Route path="/order-history" element={<OrderHistoryPage />} />
         <Route path="/categories" element={<CategoryPage />} />
+        <Route path="/owner-orders" element={<OwnerOrdersPage />} />
+        <Route path="/assign-delivery/:order_id" element={<AssignDeliveryPage />} />
       </Routes>
     </Router>
   );

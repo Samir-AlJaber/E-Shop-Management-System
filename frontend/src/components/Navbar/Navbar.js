@@ -38,6 +38,10 @@ function Navbar() {
             <Link to="/order-history">My Orders</Link>
           )}
 
+          {user?.role === "owner" && (
+            <Link to="/owner-orders">Orders</Link>
+          )}
+
           {user ? (
             <>
               <Link to="/profile">Profile</Link>
