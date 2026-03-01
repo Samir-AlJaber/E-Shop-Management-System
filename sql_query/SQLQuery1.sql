@@ -24,6 +24,7 @@ CREATE TABLE salesman (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
+	rating DECIMAL(3,1) NOT NULL DEFAULT 0.0,
     status VARCHAR(20) DEFAULT 'active',
     created_at DATETIME DEFAULT GETDATE()
 );
