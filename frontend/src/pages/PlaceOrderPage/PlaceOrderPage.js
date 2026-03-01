@@ -61,7 +61,7 @@ function PlaceOrderPage() {
 
             <div className="product-summary">
               <p><strong>Product:</strong> {product.name}</p>
-              <p><strong>Price:</strong> ${product.price}</p>
+              <p><strong>Price:</strong> BDT {product.price}</p>
             </div>
 
             {message && (

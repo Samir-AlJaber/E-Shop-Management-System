@@ -46,7 +46,7 @@ function OrderHistoryPage() {
 
                 <p><strong>Product:</strong> {order.product_name}</p>
                 <p><strong>Quantity:</strong> {order.quantity}</p>
-                <p><strong>Total:</strong> ${order.total_amount}</p>
+                <p><strong>Total:</strong> BDT {order.total_amount}</p>
 
                 <div className="delivery-box">
                   <p><strong>Delivery Address:</strong> {order.delivery_address}</p>
