@@ -36,7 +36,7 @@ function PlaceOrderPage() {
         body: JSON.stringify({
           product_id: product.product_id,
           quantity,
-          customer_id: user.id,
+          customer_id: user.reference_id,
           delivery_address: deliveryAddress,
           city,
           postal_code: postalCode || null,

@@ -13,7 +13,7 @@ function OrderHistoryPage() {
       fetch(`${process.env.REACT_APP_API_URL}/get_customer_orders.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ customer_id: user.id })
+        body: JSON.stringify({ customer_id: user.reference_id })
       })
         .then(res => res.json())
         .then(data => {
