@@ -35,6 +35,9 @@ function RegisterPage() {
     if (data.success) {
       setMessage("Registration successful");
       setIsSuccess(true);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1000);
     } else {
       setMessage(data.message || "Registration failed");
       setIsSuccess(false);
