@@ -12,12 +12,13 @@ include "db.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$user_id = intval($data["user_id"] ?? 0);
+$role = trim($data["role"] ?? "");
+$reference_id = intval($data["reference_id"] ?? 0);
 $name = trim($data["name"] ?? "");
 $phone = trim($data["phone"] ?? "");
 $address = trim($data["address"] ?? "");
 
-if ($user_id <= 0 || $name === "") {
+if ($reference_id <= 0 || $name === "" || $role === "") {
     echo json_encode([
         "success" => false,
         "message" => "Invalid data"
@@ -25,13 +26,22 @@ if ($user_id <= 0 || $name === "") {
     exit;
 }
 
-$sql = "
-UPDATE customer
-SET name = ?, phone = ?, address = ?
-WHERE customer_id = ?
-";
-
-$params = [$name, $phone, $address, $user_id];
+if ($role === "customer") {
+    $sql = "UPDATE customer SET name = ?, phone = ?, address = ? WHERE customer_id = ?";
+    $params = [$name, $phone, $address, $reference_id];
+} elseif ($role === "owner") {
+    $sql = "UPDATE owner SET username = ?, phone = ?, address = ? WHERE owner_id = ?";
+    $params = [$name, $phone, $address, $reference_id];
+} elseif ($role === "salesman") {
+    $sql = "UPDATE salesman SET name = ?, phone = ?, address = ? WHERE salesman_id = ?";
+    $params = [$name, $phone, $address, $reference_id];
+} else {
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid role"
+    ]);
+    exit;
+}
 
 $stmt = sqlsrv_query($conn, $sql, $params);
 

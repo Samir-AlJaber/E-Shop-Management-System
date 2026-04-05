@@ -15,6 +15,8 @@ CREATE TABLE owner (
     owner_id INT IDENTITY(1,1) PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
+	phone VARCHAR(20),
+    address VARCHAR(255),
     password_hash VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT GETDATE()
 );
@@ -23,6 +25,8 @@ CREATE TABLE salesman (
     salesman_id INT IDENTITY(1,1) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
+	phone VARCHAR(20),
+    address VARCHAR(255),
     password_hash VARCHAR(255) NOT NULL,
 	rating DECIMAL(3,1) NOT NULL DEFAULT 0.0,
     status VARCHAR(20) DEFAULT 'active',
@@ -51,6 +55,7 @@ CREATE TABLE product (
     name VARCHAR(150) NOT NULL,
     category_id INT NOT NULL,
     brand VARCHAR(100),
+	is_deleted BIT DEFAULT 0,
     description VARCHAR(MAX),
     price DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     stock_quantity INT DEFAULT 0 CHECK (stock_quantity >= 0),
@@ -168,6 +173,30 @@ CREATE TABLE user_account (
     role VARCHAR(20) NOT NULL CHECK (role IN ('owner', 'salesman', 'customer')),
     reference_id INT NOT NULL,
     created_at DATETIME DEFAULT GETDATE()
+);
+
+CREATE TABLE delivery_rating (
+    rating_id INT IDENTITY(1,1) PRIMARY KEY,
+    order_id INT NOT NULL,
+    salesman_id INT NOT NULL,
+    customer_id INT NOT NULL,
+    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    created_at DATETIME DEFAULT GETDATE(),
+
+    CONSTRAINT FK_rating_order
+        FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT FK_rating_salesman
+        FOREIGN KEY (salesman_id)
+        REFERENCES salesman(salesman_id)
+        ON DELETE NO ACTION,
+
+    CONSTRAINT FK_rating_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customer(customer_id)
+        ON DELETE NO ACTION
 );
 
 SELECT name FROM sys.tables;

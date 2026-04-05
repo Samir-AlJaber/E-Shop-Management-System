@@ -27,7 +27,7 @@ $sql = "SELECT user_id, email, password_hash, role, reference_id
 $stmt = sqlsrv_query($conn, $sql, [$email]);
 
 if ($stmt === false) {
-    echo json_encode(["success" => false]);
+    echo json_encode(["success" => false, "message" => "Login failed"]);
     exit;
 }
 
@@ -50,29 +50,27 @@ $phone = "";
 $address = "";
 
 if ($role === "owner") {
-    $infoSql = "SELECT username FROM owner WHERE owner_id = ?";
+    $infoSql = "SELECT username, phone, address FROM owner WHERE owner_id = ?";
     $infoStmt = sqlsrv_query($conn, $infoSql, [$reference_id]);
     $info = sqlsrv_fetch_array($infoStmt, SQLSRV_FETCH_ASSOC);
     $name = $info["username"] ?? "";
-}
-
-if ($role === "customer") {
+    $phone = $info["phone"] ?? "";
+    $address = $info["address"] ?? "";
+} elseif ($role === "customer") {
     $infoSql = "SELECT name, phone, address FROM customer WHERE customer_id = ?";
     $infoStmt = sqlsrv_query($conn, $infoSql, [$reference_id]);
     $info = sqlsrv_fetch_array($infoStmt, SQLSRV_FETCH_ASSOC);
     $name = $info["name"] ?? "";
     $phone = $info["phone"] ?? "";
     $address = $info["address"] ?? "";
-}
-
-if ($role === "salesman") {
-    $infoSql = "SELECT name FROM salesman WHERE salesman_id = ?";
+} elseif ($role === "salesman") {
+    $infoSql = "SELECT name, phone, address FROM salesman WHERE salesman_id = ?";
     $infoStmt = sqlsrv_query($conn, $infoSql, [$reference_id]);
     $info = sqlsrv_fetch_array($infoStmt, SQLSRV_FETCH_ASSOC);
     $name = $info["name"] ?? "";
+    $phone = $info["phone"] ?? "";
+    $address = $info["address"] ?? "";
 }
-
-unset($user["password_hash"]);
 
 echo json_encode([
     "success" => true,

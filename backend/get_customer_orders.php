@@ -33,10 +33,12 @@ SELECT
     o.payment_method,
     oi.quantity,
     oi.price,
-    p.name AS product_name
+    p.name AS product_name,
+    dr.rating AS delivery_rating
 FROM orders o
 JOIN order_item oi ON o.order_id = oi.order_id
 JOIN product p ON oi.product_id = p.product_id
+LEFT JOIN delivery_rating dr ON o.order_id = dr.order_id
 WHERE o.customer_id = ?
 ORDER BY o.order_date DESC
 ";
@@ -51,6 +53,9 @@ if ($stmt === false) {
 $orders = [];
 
 while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+    if ($row["delivery_rating"] !== null) {
+        $row["delivery_rating"] = intval($row["delivery_rating"]);
+    }
     $orders[] = $row;
 }
 
