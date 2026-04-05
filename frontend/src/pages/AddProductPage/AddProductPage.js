@@ -5,9 +5,11 @@ import Footer from "../../components/Footer/Footer";
 import "./AddProductPage.css";
 
 function AddProductPage() {
+
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
   const [categories, setCategories] = useState([]);
+
   const [formData, setFormData] = useState({
     name: "",
     category_id: "",
@@ -16,6 +18,7 @@ function AddProductPage() {
     price: "",
     stock_quantity: ""
   });
+
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -43,10 +46,10 @@ function AddProductPage() {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/add_product.php`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-            ...formData, 
-            role: user.role,
-            owner_id: user.reference_id
+      body: JSON.stringify({
+        ...formData,
+        role: user.role,
+        owner_id: user.reference_id
       })
     });
 
@@ -69,79 +72,93 @@ function AddProductPage() {
 
   return (
     <div className="app-wrapper">
+
       <Navbar />
 
       <div className="content-wrapper">
+
         <div className="add-product-container">
+
           <h2>Add Product</h2>
 
-          {message && (
-            <div className={isSuccess ? "success-msg" : "error-msg"}>
-              {message}
-            </div>
-          )}
+          <div className="add-product-card">
 
-          <form onSubmit={handleSubmit} className="add-product-form">
-            <input
-              name="name"
-              placeholder="Product Name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+            {message && (
+              <div className={isSuccess ? "success-msg" : "error-msg"}>
+                {message}
+              </div>
+            )}
 
-            <select
-              name="category_id"
-              value={formData.category_id}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Category</option>
-              {categories.map(cat => (
-                <option key={cat.category_id} value={cat.category_id}>
-                  {cat.category_name}
-                </option>
-              ))}
-            </select>
+            <form onSubmit={handleSubmit} className="add-product-form">
 
-            <input
-              name="brand"
-              placeholder="Brand"
-              value={formData.brand}
-              onChange={handleChange}
-            />
+              <input
+                name="name"
+                placeholder="Product Name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
 
-            <textarea
-              name="description"
-              placeholder="Description"
-              value={formData.description}
-              onChange={handleChange}
-            />
+              <select
+                name="category_id"
+                value={formData.category_id}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Category</option>
+                {categories.map(cat => (
+                  <option key={cat.category_id} value={cat.category_id}>
+                    {cat.category_name}
+                  </option>
+                ))}
+              </select>
 
-            <input
-              type="number"
-              name="price"
-              placeholder="Price"
-              value={formData.price}
-              onChange={handleChange}
-              required
-            />
+              <input
+                name="brand"
+                placeholder="Brand"
+                value={formData.brand}
+                onChange={handleChange}
+              />
 
-            <input
-              type="number"
-              name="stock_quantity"
-              placeholder="Stock Quantity"
-              value={formData.stock_quantity}
-              onChange={handleChange}
-              required
-            />
+              <textarea
+                name="description"
+                placeholder="Description"
+                value={formData.description}
+                onChange={handleChange}
+              />
 
-            <button type="submit">Add Product</button>
-          </form>
+              <input
+                type="number"
+                name="price"
+                placeholder="Price"
+                value={formData.price}
+                onChange={handleChange}
+                required
+              />
+
+              <input
+                type="number"
+                name="stock_quantity"
+                placeholder="Stock Quantity"
+                value={formData.stock_quantity}
+                onChange={handleChange}
+                required
+              />
+
+              <button type="submit">
+                Add Product
+              </button>
+
+            </form>
+
+          </div>
+
         </div>
+
       </div>
 
       <Footer />
+
     </div>
   );
 }
