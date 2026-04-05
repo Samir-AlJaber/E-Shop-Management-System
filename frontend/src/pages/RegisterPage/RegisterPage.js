@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "./RegisterPage.css";
+import heroImage from "../../assets/images/login-bg.jpg";
 
 function RegisterPage() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -35,9 +39,11 @@ function RegisterPage() {
     if (data.success) {
       setMessage("Registration successful");
       setIsSuccess(true);
+
       setTimeout(() => {
         window.location.href = "/login";
       }, 1000);
+
     } else {
       setMessage(data.message || "Registration failed");
       setIsSuccess(false);
@@ -49,59 +55,94 @@ function RegisterPage() {
       <Navbar />
 
       <div className="content-wrapper">
-        <div className="register-wrapper">
-          <div className="register-card">
-            <h2>Create Account</h2>
 
-            {message && (
-              <div className={isSuccess ? "success-msg" : "error-msg"}>
-                {message}
-              </div>
-            )}
+        <div className="register-container">
 
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Full Name"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+          <div className="register-left">
 
-              <div className="form-group">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            <img src={heroImage} alt="" className="register-image" />
 
-              <div className="form-group">
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            <div className="register-left-overlay"></div>
 
-              <div className="form-group">
-                <select name="role" onChange={handleChange}>
-                  <option value="customer">Customer</option>
-                  <option value="salesman">Salesman</option>
-                  <option value="owner">Owner</option>
-                </select>
-              </div>
+            <div className="register-left-content">
+              <h1>Start Your E-Shop Journey</h1>
+              <p>
+                Create your account to manage products, orders,
+                customers and deliveries from one powerful dashboard.
+              </p>
+            </div>
 
-              <button type="submit">Register</button>
-            </form>
           </div>
+
+          <div className="register-right">
+
+            <div className="register-card">
+
+              <h2>Create Account</h2>
+
+              {message && (
+                <div className={isSuccess ? "success-msg" : "error-msg"}>
+                  {message}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit}>
+
+                <div className="form-group">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Full Name"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <select name="role" onChange={handleChange}>
+                    <option value="customer">Customer</option>
+                    <option value="salesman">Salesman</option>
+                    <option value="owner">Owner</option>
+                  </select>
+                </div>
+
+                <button type="submit">Register</button>
+
+              </form>
+
+              <div className="register-login-link">
+                Already have an account?
+                <span onClick={() => navigate("/login")}>
+                  Login
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
+
       </div>
 
       <Footer />
