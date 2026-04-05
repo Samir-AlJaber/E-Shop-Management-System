@@ -83,8 +83,8 @@ function AssignDeliveryPage() {
               {salesmen.map(s => (
                 <div className="salesman-card" key={s.salesman_id}>
                   <h3>{s.name}</h3>
-                  <p><strong>Email:</strong> {s.email}</p>
-                  <p><strong>Rating:</strong> {s.rating}</p>
+                  <p><strong>Email: {s.email}</strong></p>
+                  <p><strong>Rating: {s.rating}</strong></p>
 
                   <button
                     className="assign-btn"
