@@ -11,6 +11,7 @@ import OrderHistoryPage from "./pages/OrderHistoryPage/OrderHistoryPage";
 import CategoryPage from "./pages/CategoryPage/CategoryPage";
 import OwnerOrdersPage from "./pages/OwnerOrdersPage/OwnerOrdersPage";
 import AssignDeliveryPage from "./pages/AssignDeliveryPage/AssignDeliveryPage";
+import SalesmanOrdersPage from "./pages/SalesmanOrdersPage/SalesmanOrdersPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/categories" element={<CategoryPage />} />
         <Route path="/owner-orders" element={<OwnerOrdersPage />} />
         <Route path="/assign-delivery/:order_id" element={<AssignDeliveryPage />} />
+        <Route path="/salesman-orders" element={<SalesmanOrdersPage />} />
       </Routes>
     </Router>
   );
