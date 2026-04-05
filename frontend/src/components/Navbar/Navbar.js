@@ -42,6 +42,10 @@ function Navbar() {
             <Link to="/owner-orders">Orders</Link>
           )}
 
+          {user && user.role === "salesman" && (
+            <Link to="/salesman-orders">My Deliveries</Link>
+          )}
+
           {user ? (
             <>
               <Link to="/profile">Profile</Link>
