@@ -51,6 +51,10 @@ function CategoryPage() {
     setMessage(data.message);
     setIsSuccess(data.success);
 
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
+
     if (data.success) {
       setCategoryName("");
       fetchCategories();
@@ -79,6 +83,10 @@ function CategoryPage() {
 
     setMessage(data.message);
     setIsSuccess(data.success);
+
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
 
     if (data.success) {
       fetchCategories();
