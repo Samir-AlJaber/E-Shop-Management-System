@@ -21,11 +21,11 @@ if ($role !== "owner") {
     exit;
 }
 
-$sql = "DELETE FROM product WHERE product_id = ? AND owner_id = ?";
+$sql = "UPDATE product SET is_deleted = 1 WHERE product_id = ? AND owner_id = ?";
 $stmt = sqlsrv_query($conn, $sql, [$product_id, $owner_id]);
 
 if ($stmt === false) {
-    echo json_encode(["success" => false]);
+    echo json_encode(sqlsrv_errors());
     exit;
 }
 
