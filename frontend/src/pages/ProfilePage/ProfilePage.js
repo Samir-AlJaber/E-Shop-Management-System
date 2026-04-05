@@ -1,19 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "./ProfilePage.css";
 
 function ProfilePage() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+  const navigate = useNavigate();
+  const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+  useEffect(() => {
+    if (!storedUser) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate, storedUser]);
+
+  const [user, setUser] = useState(storedUser);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    name: user.name,
-    phone: user.phone || "",
-    address: user.address || ""
+    name: storedUser?.name || "",
+    phone: storedUser?.phone || "",
+    address: storedUser?.address || ""
   });
 
+  if (!user) {
+    return null;
+  }
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleUpdate = async (e) => {
@@ -23,10 +40,15 @@ function ProfilePage() {
       `${process.env.REACT_APP_API_URL}/update_profile.php`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
-          user_id: user.id,
-          ...formData
+          role: user.role,
+          reference_id: user.reference_id,
+          name: formData.name,
+          phone: formData.phone,
+          address: formData.address
         })
       }
     );
@@ -34,10 +56,18 @@ function ProfilePage() {
     const data = await response.json();
 
     if (data.success) {
-      const updatedUser = { ...user, ...formData };
+      const updatedUser = {
+        ...user,
+        name: formData.name,
+        phone: formData.phone,
+        address: formData.address
+      };
+
       localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
       setShowModal(false);
+    } else {
+      alert(data.message || "Profile update failed.");
     }
   };
 
@@ -76,6 +106,7 @@ function ProfilePage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
+                placeholder="Name"
                 required
               />
 
