@@ -184,11 +184,10 @@
 
 .order-history-empty-state {
   text-align: center;
-  color: white;
+  color: black;
   font-size: 1.2rem;
   margin-top: 40px;
   font-weight: 600;
-  animation: fadePulse 1.5s infinite;
 }
 
 @keyframes fadePulse {
