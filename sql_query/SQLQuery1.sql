@@ -71,31 +71,6 @@ CREATE TABLE product (
         ON DELETE NO ACTION
 );
 
-CREATE TABLE discount (
-    discount_id INT IDENTITY(1,1) PRIMARY KEY,
-    title VARCHAR(150) NOT NULL,
-    discount_type VARCHAR(20) NOT NULL CHECK (discount_type IN ('percentage', 'fixed')),
-    value DECIMAL(10,2) NOT NULL CHECK (value >= 0),
-    start_date DATE NULL,
-    end_date DATE NULL
-);
-
-CREATE TABLE product_discount (
-    product_id INT NOT NULL,
-    discount_id INT NOT NULL,
-    PRIMARY KEY (product_id, discount_id),
-
-    CONSTRAINT FK_pd_product
-        FOREIGN KEY (product_id)
-        REFERENCES product(product_id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT FK_pd_discount
-        FOREIGN KEY (discount_id)
-        REFERENCES discount(discount_id)
-        ON DELETE CASCADE
-);
-
 CREATE TABLE orders (
     order_id INT IDENTITY(1,1) PRIMARY KEY,
     owner_id INT NOT NULL,
@@ -144,26 +119,6 @@ CREATE TABLE order_item (
         FOREIGN KEY (product_id)
         REFERENCES product(product_id)
         ON DELETE NO ACTION
-);
-
-CREATE TABLE support_ticket (
-    ticket_id INT IDENTITY(1,1) PRIMARY KEY,
-    customer_id INT NOT NULL,
-    salesman_id INT NULL,
-    issue VARCHAR(MAX) NOT NULL,
-    priority VARCHAR(20) CHECK (priority IN ('low', 'medium', 'high')),
-    status VARCHAR(20) DEFAULT 'open',
-    created_at DATETIME DEFAULT GETDATE(),
-
-    CONSTRAINT FK_ticket_customer
-        FOREIGN KEY (customer_id)
-        REFERENCES customer(customer_id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT FK_ticket_salesman
-        FOREIGN KEY (salesman_id)
-        REFERENCES salesman(salesman_id)
-        ON DELETE SET NULL
 );
 
 CREATE TABLE user_account (
