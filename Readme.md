@@ -165,7 +165,7 @@ Follow all steps carefully.
 
 ## 1️⃣2️⃣ Setup Environment Variables
 
-- In root project directory, create .env file using vs code
+- Inside frontend folder, create .env file using vs code
 
 - paste exactly this: REACT_APP_API_URL=http://localhost/project_backend
 
